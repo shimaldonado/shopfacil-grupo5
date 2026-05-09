@@ -147,8 +147,9 @@ docker compose up --build
 
 ### Frontend
 
+Se ingresa por el archivo
 ```txt
-http://localhost:5500
+index.html
 ```
 
 ### Backend API
