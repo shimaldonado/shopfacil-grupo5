@@ -60,12 +60,12 @@ INSERT INTO usuarios (nombre, correo, password, rol) VALUES
 ('Vendedor Demo', 'vendedor@shopfacil.com', '$2a$10$RiUSW/goNY59Fj3RCIInl.My3KQ3uSUN68AWU5p4LL18MQoTRnjAK', 'vendedor'),
 ('Comprador Demo', 'comprador@shopfacil.com', '$2a$10$uUKYTZfBR0BVWzAKz4CE.eQl5h0xQUzHaYGDl4nOv1dRN5kzerxtu', 'comprador');
 -- admin123, vend123, comp123
-INSERT INTO productos (nombre, descripcion, precio, stock, vendedor_id) VALUES
-('Camisa Azul', 'Camisa de algodón talla M', 25.00, 10, 2),
-('Pantalon Negro', 'Pantalón slim fit talla 32', 45.00, 8, 2),
-('Zapatos Blancos', 'Zapatillas deportivas talla 40', 60.00, 5, 2),
-('Gorra Negra', 'Gorra deportiva ajustable', 15.00, 20, 2),
-('Bolso Cafe', 'Bolso de cuero genuino', 80.00, 6, 2);
+INSERT INTO productos (nombre, descripcion, precio, stock, imagen, vendedor_id, activo) VALUES
+('Camisa Azul', 'Camisa de algodón talla M', 25.00, 10,'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab', 2, true),
+('Pantalon Negro', 'Pantalón slim fit talla 32', 45.00, 8,'https://images.unsplash.com/photo-1473966968600-fa801b869a1a', 2, true),
+('Zapatos Blancos', 'Zapatillas deportivas talla 40', 60.00, 5,'https://images.unsplash.com/photo-1542291026-7eec264c27ff', 2, true),
+('Gorra Negra', 'Gorra deportiva ajustable', 15.00, 20, 'https://images.unsplash.com/photo-1521369909029-2afed882baee', 2, true),
+('Bolso Cafe', 'Bolso de cuero genuino', 80.00, 6, 'https://images.unsplash.com/photo-1521369909029-2afed882baee', 2, true);
 
 
 

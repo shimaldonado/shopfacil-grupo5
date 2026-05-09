@@ -35,14 +35,17 @@ async function agregarProducto() {
   try {
     const res = await fetch('http://localhost:3000/api/productos', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({
         nombre,
         descripcion,
         precio: parseFloat(precio),
         stock: parseInt(stock),
         imagen: imagen || null,
-        vendedor_id: usuario.id
+        //vendedor_id: usuario.id
       })
     });
 
