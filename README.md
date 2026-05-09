@@ -121,6 +121,7 @@ Antes de ejecutar el proyecto se debe instalar:
 * Docker Desktop
 * Docker Compose
 * Git
+* VS CODE
 
 ---
 
