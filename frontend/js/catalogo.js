@@ -11,12 +11,6 @@ function cargarNavbar() {
 
     const navLinks = document.querySelector('.nav-links');
 
-    // if (navLinks && !document.getElementById('btn-carrito')) {
-    //   navLinks.insertAdjacentHTML('beforeend', `
-    //     <a href="carrito.html" id="btn-carrito">Mi carrito</a>
-    //     <a href="pedidos.html" id="btn-pedidos">Mis pedidos</a>
-    //   `);
-    // }
       if (
         usuario.rol === 'comprador' &&
         navLinks &&
@@ -43,25 +37,35 @@ function cargarNavbar() {
 }
 
 
-// function cargarNavbar() {
-//   const usuario = JSON.parse(localStorage.getItem('usuario'));
-//   if (usuario) {
-//     document.getElementById('nav-usuario').textContent = `Hola, ${usuario.nombre}`;
-//     document.getElementById('btn-login').style.display = 'none';
-//     if (usuario.rol === 'vendedor' || usuario.rol === 'admin') {
-//   document.getElementById('btn-agregar').style.display = 'inline';
-//   }   
-//     document.getElementById('btn-logout').style.display = 'inline';
-//   }
-// }
-
 // ================================
 // HU-05: Cargar catálogo
 // ================================
+async function cargarProductos() {
+  const catalogo = document.getElementById('catalogo');
+
+  try {
+    catalogo.innerHTML = '<p>Cargando productos...</p>';
+
+    const res = await fetch(`${API}/productos`);
+
+    if (!res.ok) {
+      throw new Error('Error al obtener productos');
+    }
+
+    const productos = await res.json();
+
+    todosLosProductos = productos;
+    mostrarProductos(productos);
+
+  } catch (error) {
+    console.error('Error al cargar productos:', error);
+    catalogo.innerHTML = '<p>Error al cargar productos.</p>';
+  }
+}
 function mostrarProductos(productos) {
   const catalogo = document.getElementById('catalogo');
 
-  if (productos.length === 0) {
+  if (!productos || productos.length === 0) {
     catalogo.innerHTML = '<p>No se encontraron productos.</p>';
     return;
   }
@@ -101,6 +105,8 @@ function mostrarProductos(productos) {
 }
 
 
+
+
 function verDetalle(id) {
   window.location.href = `detalle-producto.html?id=${id}`;
 }
@@ -136,6 +142,7 @@ async function agregarAlCarrito(productoId) {
       alert(data.error || 'Error al agregar al carrito');
     }
   } catch (error) {
+    console.error('Error al agregar al carrito:', error);
     alert('No se pudo conectar con el servidor');
   }
 }
@@ -150,6 +157,9 @@ async function agregarAlCarrito(productoId) {
 //   mostrarProductos(filtrados);
 // }
 
+// ================================
+// HU-14: Filtrar productos
+// ================================
 async function filtrar() {
   const nombre = document.getElementById('buscador')?.value.trim() || '';
   const precioMin = document.getElementById('precio-min')?.value || '';
@@ -165,17 +175,33 @@ async function filtrar() {
     params.append('categoria', categoria);
   }
   try {
-    const res = await fetch(`${API}/productos?${params.toString()}`);
+    const catalogo = document.getElementById('catalogo');
+    catalogo.innerHTML = '<p>Cargando productos...</p>';
+
+    const url = params.toString()
+      ? `${API}/productos?${params.toString()}`
+      : `${API}/productos`;
+
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error('Error al filtrar productos');
+    }
+
     const productos = await res.json();
 
     todosLosProductos = productos;
     mostrarProductos(productos);
+
   } catch (error) {
+    console.error('Error al filtrar productos:', error);
     document.getElementById('catalogo').innerHTML =
       '<p>Error al filtrar productos.</p>';
   }
 }
-
+// ================================
+// Limpiar filtros
+// ================================
 function limpiarFiltros() {
   if (document.getElementById('buscador')) {
     document.getElementById('buscador').value = '';
@@ -197,6 +223,6 @@ function limpiarFiltros() {
 }
 
 
-// Inicializar al cargar la página
+// // Inicializar al cargar la página
 cargarNavbar();
-//cargarProductos();
+cargarProductos();
