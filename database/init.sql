@@ -24,29 +24,48 @@ CREATE TABLE IF NOT EXISTS productos (
   precio        DECIMAL(10,2) NOT NULL,
   stock         INT NOT NULL,
   imagen        VARCHAR(255),
+  categoria     VARCHAR(50) DEFAULT 'otros',
   vendedor_id    INT,
   activo        BOOLEAN DEFAULT TRUE,
   created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (vendedor_id) REFERENCES usuarios(id)
 );
 
--- Tabla de pedidos
+-- ================================
+-- SPRINT 2: Carrito
+-- ================================
+CREATE TABLE IF NOT EXISTS carrito (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  producto_id INT NOT NULL,
+  cantidad INT NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+  FOREIGN KEY (producto_id) REFERENCES productos(id)
+);
+
+-- ================================
+-- SPRINT 2: Pedidos
+-- ================================
 CREATE TABLE IF NOT EXISTS pedidos (
-  id            INT AUTO_INCREMENT PRIMARY KEY,
-  comprador_id   INT NOT NULL,
-  total         DECIMAL(10,2) NOT NULL,
-  estado        ENUM('pendiente', 'en_proceso', 'enviado', 'entregado') DEFAULT 'pendiente',
-  created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  codigo VARCHAR(30) UNIQUE,
+  comprador_id INT NOT NULL,
+  total DECIMAL(10,2) NOT NULL,
+  estado ENUM('pendiente','en_proceso','enviado','entregado') DEFAULT 'pendiente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (comprador_id) REFERENCES usuarios(id)
 );
 
--- Tabla de detalle de pedidos
+-- ================================
+-- SPRINT 2: Detalle de pedidos
+-- ================================
 CREATE TABLE IF NOT EXISTS pedido_detalle (
-  id            INT AUTO_INCREMENT PRIMARY KEY,
-  pedido_id     INT NOT NULL,
-  producto_id    INT NOT NULL,
-  cantidad      INT NOT NULL,
-  precio_unit    DECIMAL(10,2) NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  pedido_id INT NOT NULL,
+  producto_id INT NOT NULL,
+  cantidad INT NOT NULL,
+  precio_unit DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
   FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
@@ -60,12 +79,12 @@ INSERT INTO usuarios (nombre, correo, password, rol) VALUES
 ('Vendedor Demo', 'vendedor@shopfacil.com', '$2a$10$RiUSW/goNY59Fj3RCIInl.My3KQ3uSUN68AWU5p4LL18MQoTRnjAK', 'vendedor'),
 ('Comprador Demo', 'comprador@shopfacil.com', '$2a$10$uUKYTZfBR0BVWzAKz4CE.eQl5h0xQUzHaYGDl4nOv1dRN5kzerxtu', 'comprador');
 -- admin123, vend123, comp123
-INSERT INTO productos (nombre, descripcion, precio, stock, imagen, vendedor_id, activo) VALUES
-('Camisa Azul', 'Camisa de algodón talla M', 25.00, 10,'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab', 2, true),
-('Pantalon Negro', 'Pantalón slim fit talla 32', 45.00, 8,'https://images.unsplash.com/photo-1473966968600-fa801b869a1a', 2, true),
-('Zapatos Blancos', 'Zapatillas deportivas talla 40', 60.00, 5,'https://images.unsplash.com/photo-1542291026-7eec264c27ff', 2, true),
-('Gorra Negra', 'Gorra deportiva ajustable', 15.00, 20, 'https://images.unsplash.com/photo-1521369909029-2afed882baee', 2, true),
-('Bolso Cafe', 'Bolso de cuero genuino', 80.00, 6, 'https://images.unsplash.com/photo-1521369909029-2afed882baee', 2, true);
+INSERT INTO productos (nombre, descripcion, precio, stock, imagen, categoria, vendedor_id, activo) VALUES
+('Camisa Azul', 'Camisa de algodón talla M', 25.00, 10,'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab', 'ropa', 2, true),
+('Pantalon Negro', 'Pantalón slim fit talla 32', 45.00, 8,'https://images.unsplash.com/photo-1473966968600-fa801b869a1a', 'ropa',2, true),
+('Zapatos Blancos', 'Zapatillas deportivas talla 40', 60.00, 5,'https://images.unsplash.com/photo-1542291026-7eec264c27ff', 'calzado', 2, true),
+('Gorra Negra', 'Gorra deportiva ajustable', 15.00, 20, 'https://images.unsplash.com/photo-1521369909029-2afed882baee', 'accesorios', 2, true),
+('Bolso Cafe', 'Bolso de cuero genuino', 80.00, 6, 'https://http2.mlstatic.com/D_Q_NP_838109-MLU74571701321_022024-O.webp', 'accesorios', 2, true);
 
 
 

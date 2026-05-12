@@ -23,14 +23,44 @@
   <div class="container">
     <h2 style="margin-bottom: 8px;">Catálogo de productos</h2>
 
-    <!-- Buscador -->
-    <input
-      type="text"
-      id="buscador"
-      placeholder="🔍 Buscar producto..."
-      oninput="filtrar()"
-      style="padding:10px 14px; border:1px solid #ddd; border-radius:6px; width:100%; max-width:400px; font-size:14px; margin-bottom:20px;"
-    >
+    <!-- filtros -->
+     <div class="filtros">
+      <input
+        type="text"
+        id="buscador"
+        placeholder="🔍 Buscar producto..."
+        oninput="filtrar()"
+      >
+      <select id="categoria" onchange="filtrar()" title="Filtrar por categoría">  <!-- 👈 bloque nuevo -->
+        <option value="todos">Todas las categorías</option>
+        <option value="ropa">Ropa</option>
+        <option value="calzado">Calzado</option>
+        <option value="maquillaje">Maquillaje</option>
+        <option value="aseo">Aseo</option>
+        <option value="tecnologia">Tecnología</option>
+        <option value="hogar">Hogar</option>
+        <option value="otros">Otros</option>
+      </select>
+
+      <input 
+        type="number" 
+        id="precio-min" 
+        placeholder="Precio mínimo"
+        oninput="filtrar()"
+      >
+
+      <input 
+        type="number" 
+        id="precio-max" 
+        placeholder="Precio máximo"
+        oninput="filtrar()"
+      >
+
+      <button onclick="limpiarFiltros()">
+        Limpiar filtros
+      </button>
+     </div>
+
 
     <!-- Grid de productos -->
     <div id="catalogo" class="catalogo-grid">

@@ -22,6 +22,7 @@ async function agregarProducto() {
   const precio = document.getElementById('precio').value;
   const stock = document.getElementById('stock').value;
   const imagen = document.getElementById('imagen').value.trim();
+  const categoria = document.getElementById('categoria').value;
 
   // Validar campos obligatorios
   if (!nombre || !precio || !stock) {
@@ -45,6 +46,7 @@ async function agregarProducto() {
         precio: parseFloat(precio),
         stock: parseInt(stock),
         imagen: imagen || null,
+        categoria
         //vendedor_id: usuario.id
       })
     });
@@ -59,6 +61,7 @@ async function agregarProducto() {
       document.getElementById('precio').value = '';
       document.getElementById('stock').value = '';
       document.getElementById('imagen').value = '';
+      document.getElementById('categoria').value = '';
       setTimeout(() => {
         window.location.href = 'index.html';
       }, 1500);
